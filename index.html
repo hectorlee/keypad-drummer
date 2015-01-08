@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html manifest='keypad-drummer.appcache'>
+<head>
+  <title>Keypad Drummer</title>
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+  <style type="text/css" media="screen">
+  body, html {
+    background-color:#272822;
+    height: 100%;
+    margin: 0;
+  }
+  .container {
+    margin-left: 360px;
+    text-align: center;
+    position: relative;
+    width: 700px;
+    color: white;
+    text-align: left;
+    padding: 20px;
+  }
+  #title{
+    text-align: left;
+  }
+  #grid {
+    max-width: 490px;
+  }
+  .drumpad {
+    -moz-box-shadow:inset 0px 1px 2px 0px #ffffff, 0 2px 4px rgba(0,0,0,0.5);
+    -webkit-box-shadow:inset 0px 1px 2px 0px #ffffff, 0 2px 4px rgba(0,0,0,0.5);
+    box-shadow:inset 0px 1px 2px 0px #ffffff, 0 2px 4px rgba(0,0,0,0.5);
+    background-color:#FFCF15;
+    -webkit-border--radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+    text-indent:0;
+    border:1px solid #D5AB0A;
+    display:inline-block;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:15px;
+    font-weight:bold;
+    font-style:normal;
+    height:150px;
+    /*line-height:30px;*/
+    width:150px;
+    text-decoration:none;
+    text-align:center;
+    text-shadow:1px 1px 0px #b05859;
+    margin: 5px;
+  }
+  p {
+    line-height: 1.6em;
+  }
+  #sidebar {
+    font-family: 'Questrial', sans-serif;
+    position: absolute;
+    left: 0;
+    width: 300px;
+    color: #fff;
+    padding: 0 20px;
+    background-color: #434439;
+    height: 100%;
+    margin: 0;
+  }
+  #credits {
+    color: #F92652;
+    position: absolute;
+    bottom: 0;
+    padding: 0 20px 0 0;
+  }
+  a {
+    color: #bbb;
+    text-decoration: none;
+  }
+  a:visited {
+    color: #bbb;
+  }
+  a:hover {
+    color: #fff;
+  }
+  #chrome-hint {
+    color: #A0D92E;
+  }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h1 id="title">Keypad Drummer</h1>
+    <p>Press the corresponding keys on your number pad to trigger the sounds. If your keyboard does not have a number pad. You can also use the keys, Q, W, E, A, S, D, Z, X, and C to replace the number pad.</p>
+    <p>Keypad drummer uses HTML5 Application Cache to store the audio files so no additional data bandwidth is required to trigger the sounds.</p>
+    <p id="chrome-hint">Keypad drummer works best in Google Chrome.</p>
+    <div id="credits">
+      <p>All sounds and code designed and created by <a href="http://hector-lee.com">Hector Lee</a></p>
+    </div>
+  </div>
+  <div class="container">
+    <div id='panel'>
+      <div id="grid">
+        <button class="drumpad" id="pad7">7 Snare 3</button>
+        <button class="drumpad" id="pad8">8 Shaker</button>
+        <button class="drumpad" id="pad9">9 Open Hihat</button>
+        <button class="drumpad" id="pad4">4 Kick 2</button>
+        <button class="drumpad" id="pad5">5 Tamborine</button>
+        <button class="drumpad" id="pad6">6 Hihat</button>
+        <button class="drumpad" id="pad1">1 Kick</button>
+        <button class="drumpad" id="pad2">2 Snare</button>
+        <button class="drumpad" id="pad3">3 Snare 2</button>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+
+    var pad1 = 97
+    var pad2 = 98
+    var pad3 = 99
+    var pad4 = 100
+    var pad5 = 101
+    var pad6 = 102
+    var pad7 = 103
+    var pad8 = 104
+    var pad9 = 105
+
+    keymap = [90,88,67,65,83,68,81,87,69]
+
+    var kickPath = 'audio/deep-kick.mp3'
+    var kick = new Audio(kickPath)
+
+    var snarePath = 'audio/snare.mp3'
+    var snare = new Audio(snarePath)
+
+    var hiHatPath = 'audio/hihat.mp3'
+    var hiHat = new Audio(hiHatPath)
+
+    var tamborinePath = 'audio/tamborine.mp3'
+    var tamborine = new Audio(tamborinePath)
+
+    var shakerPath = 'audio/shaker.mp3'
+    var shaker = new Audio(shakerPath)
+
+    var openHiHatPath = 'audio/open_hihat.mp3'
+    var openHiHat = new Audio(openHiHatPath)
+
+    var dropKickPath = 'audio/drop-kick.mp3'
+    var dropKick = new Audio(dropKickPath)
+
+    function playSound(event){
+
+      // console.log(event.keyCode)
+
+      // choke the open hihat if it is playing
+      if(event.keyCode == pad6||event.keyCode == pad9||event.keyCode == keymap[5]||event.keyCode == keymap[8]){
+        openHiHat.pause()
+        openHiHat = new Audio(openHiHatPath)
+      }
+
+      if(event.keyCode == keymap[0] || event.keyCode == pad1 || event == 'pad1') {
+        kick.play()
+        kick = new Audio(kickPath)
+        padOn('pad1')
+      }
+      if(event.keyCode == keymap[1] || event.keyCode == pad2) {
+        snare.play()
+        snare = new Audio(snarePath)
+        padOn('pad2')
+      }
+      if(event.keyCode == keymap[2] || event.keyCode == pad3) {
+        snare.play()
+        snare = new Audio(snarePath)
+        shaker.play()
+        shaker = new Audio(shakerPath)
+        padOn('pad3')
+      }
+      if(event.keyCode == keymap[3] || event.keyCode == pad4) {
+        dropKick.play()
+        dropKick = new Audio(dropKickPath)
+        padOn('pad4')
+      }
+      if(event.keyCode == keymap[4] || event.keyCode == pad5) {
+        tamborine.play()
+        tamborine = new Audio(tamborinePath)
+        padOn('pad5')
+      }
+      if(event.keyCode == keymap[5] || event.keyCode == pad6) {
+        hiHat.play()
+        hiHat = new Audio(hiHatPath)
+        padOn('pad6')
+      }
+      if(event.keyCode == keymap[6] || event.keyCode == pad7) {
+        snare.play()
+        snare = new Audio(snarePath)
+        tamborine.play()
+        tamborine = new Audio(tamborinePath)
+        padOn('pad7')
+      }
+      if(event.keyCode == keymap[7] || event.keyCode == pad8) {
+        shaker.play()
+        shaker = new Audio(shakerPath)
+        padOn('pad8')
+      }
+      if(event.keyCode == keymap[8] || event.keyCode == pad9) {
+        openHiHat.play()
+        padOn('pad9')
+      }
+
+    }
+
+    function padOn(pad){
+      document.getElementById(pad).style.backgroundColor = '#ffffff'
+    }
+
+    function padOff(event){
+      if(event.keyCode == keymap[0] || event.keyCode == pad1) {
+        lightOff('pad1')
+      }
+      if(event.keyCode == keymap[1] || event.keyCode == pad2) {
+        lightOff('pad2')
+      }
+      if(event.keyCode == keymap[2] || event.keyCode == pad3) {
+        lightOff('pad3')
+      }
+      if(event.keyCode == keymap[3] || event.keyCode == pad4) {
+        lightOff('pad4')
+      }
+      if(event.keyCode == keymap[4] || event.keyCode == pad5) {
+        lightOff('pad5')
+      }
+      if(event.keyCode == keymap[5] || event.keyCode == pad6) {
+        lightOff('pad6')
+      }
+      if(event.keyCode == keymap[6] || event.keyCode == pad7) {
+        lightOff('pad7')
+      }
+      if(event.keyCode == keymap[7] || event.keyCode == pad8) {
+        lightOff('pad8')
+      }
+      if(event.keyCode == keymap[8] || event.keyCode == pad9) {
+        lightOff('pad9')
+      }
+      
+    }
+
+    function lightOff(pad){
+      document.getElementById(pad).style.backgroundColor = '#FFCF15'
+    }
+
+    window.onkeydown = playSound
+    window.onkeyup = padOff
+
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-15521284-1', {'siteSpeedSampleRate': 100});
+    ga('send', 'pageview');
+
+  </script>
+</body>
+</html>

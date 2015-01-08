@@ -1,0 +1,19 @@
+CACHE MANIFEST
+# 01-12-2014 v0.2.1
+
+CACHE:
+/apps/keypad-drummer/audio/deep-kick.mp3
+/apps/keypad-drummer/audio/snare.mp3
+/apps/keypad-drummer/audio/hihat.mp3
+/apps/keypad-drummer/audio/tamborine.mp3
+/apps/keypad-drummer/audio/shaker.mp3
+/apps/keypad-drummer/audio/open_hihat.mp3
+/apps/keypad-drummer/audio/drop-kick.mp3
+
+http://fonts.gstatic.com/s/questrial/v6/MYWJ4lYm5dbZ1UBuYox79IX0hVgzZQUfRDuZrPvH3D8.woff2
+
+NETWORK:
+*
+
+FALLBACK:
+*
